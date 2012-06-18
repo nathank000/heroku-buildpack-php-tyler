@@ -64,26 +64,6 @@ http {
       access_log   off;
     }
 
-    #location / {
-    #  # wordpress fancy rewrites
-    #  if (-f $request_filename) {
-    #    break;
-    #  }
-    #  if (-d $request_filename) {
-    #    break;
-    #  }
-
-    #  rewrite         ^(.+)$ /index.php?q=$1 last;
-
-    #  # Add trailing slash to */wp-admin requests.
-    #  rewrite         /wp-admin$ $scheme://$host$uri/ permanent;
-
-    #  # redirect to feedburner.
-    #  # if ($http_user_agent !~ FeedBurner) {
-    #  #   rewrite ^/feed/?$ http://feeds.feedburner.com/feedburner-feed-id last;
-    #  # }
-    #}
-
     location ~ .*\.php$ {
       try_files $uri =404;
       limit_conn phplimit 5; # limit to 5 concurrent users to PHP per IP.
@@ -92,5 +72,6 @@ http {
       fastcgi_pass    unix:/tmp/php-fpm.socket;
       fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name;
     }
+
   }
 }
